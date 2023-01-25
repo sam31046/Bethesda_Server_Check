@@ -25,8 +25,10 @@ if __name__ == '__main__':
     url = "https://status.bethesda.net/en"
     while True:
         driver.get(url)
-        time.sleep(300)
-        # Check every 5 minutes
-        if driver.page_source.find("Investigating") == -1:
+        conditions = (driver.page_source.find("Investigating") == -1) or \
+                     (driver.page_source.find("All Systems Operational") != -1)
+        if conditions is True:
             print("Server is online!")
             break
+        driver.close()
+        time.sleep(300)  # Check every 5 minutes
